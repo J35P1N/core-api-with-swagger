@@ -1,14 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using CoreApiWithSwagger.Controllers.Base;
+using CoreApiWithSwagger.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CoreApiWithSwagger.Controllers
 {
-    [ApiController]
     [ApiVersion("1.0")]
     [ApiVersion("1.1")]
-    [Produces("application/json")]
-    [Consumes("application/json")]
-    public class AuthenticationController : ControllerBase
+    [ApiVersion("2.0")]
+    public class AuthenticationController : MyApiController
     {
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -16,9 +16,31 @@ namespace CoreApiWithSwagger.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost("login")]
-        public IActionResult Login()
+        public ActionResult<JwtTokenResponse> Login([FromBody] LoginRequest loginRequest)
         {
-            return new OkResult();
+            var model = new JwtTokenResponse()
+            {
+                Token = "ExampleToken"
+            };
+
+            return Ok(model);
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpPost("login")]
+        [MapToApiVersion("2.0")]
+        public ActionResult<JwtTokenResponse> Loginv2_0([FromBody] LoginRequest loginRequest)
+        {
+            var model = new JwtTokenResponse()
+            {
+                Token = "ExampleToken"
+            };
+
+            return Ok(model);
         }
     }
 }

@@ -89,7 +89,7 @@ namespace CoreApiWithSwagger
                 {
                     option.SwaggerEndpoint(currentVersion.UiEndpoint, $"{swaggerOptions.Title} {currentVersion.Name}");
                 }
-                //option.RoutePrefix = string.Empty; // to serve the Swagger UI at the app's root
+                option.RoutePrefix = string.Empty; // to serve the Swagger UI at the app's root
             });
 
             app.UseHttpsRedirection();
